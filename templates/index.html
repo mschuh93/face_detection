@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <titel>Face Recognition</titel>
+</head>
+<body>
+    <h1>Wilkommen zur Gesichtserkennungs-App</h1>
+    <form action="/uploads/" method="post" enctype="multipart/form-data"> 
+        <!--Formular um eine Datei hochzuladen. action="/upload" definiert wo die Daten hin gesendet werden. Dafür muss die Methode noch festgelegt werden in dem Fall post.   -->
+        <!-- enctype gibt an welcher encryption typ angewendet wird. Für Uploads muss es multipart/from-data sein, da Ohne enctype="multipart/form-data" kann der Server die Datei nicht korrekt verarbeiten. Er würde nur den Dateinamen, aber nicht den Inhalt der Datei erhalten.-->
+        <label for="file">Wähle ein Bild</label>
+        <input type="file" name="file" id="file" required>
+        <button type="submit">Hochladen</button>
+    </form>
+</body>
+
+</html>
