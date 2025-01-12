@@ -7,7 +7,13 @@
     </head>
 <body>
 <h1>Erkannte Gesichter</h1>
-<img src="/uploads/{{ image }}" alt="=Ergebnisbild"> <!--{{ image }}: Flask ersetzt diese Variable durch den Bildpfad.-->
+<p>{{ message }}</p>
+<p>{{ message }}</p>
+{% if image %}
+    <img src="/uploads/{{ image }}" alt="Ergebnisbild"> <!--{{ image }}: Flask ersetzt diese Variable durch den Bildpfad.-->
+{% else %}
+    <p>Kein Ergebnisbild vorhanden.</p>
+{% endif %} 
 <br>
 <a href="/">Zurück zur Startseite</a>
 
