@@ -1,81 +1,78 @@
-# Face Recognition Tool
+# Face Recognition App
 
-## Beschreibung von Version 1 (Readme.md erstellt am 22.12.2024)
+## Beschreibung von Version 1 (Readme.md erstellt am 12.01.2025)
 
-Dieses Tool verwendet die `face_recognition`-Bibliothek, um Gesichter in Bildern zu erkennen. Es identifiziert die Position von Gesichtern im Bild und markiert sie mit roten Rechtecken. Zusätzlich bietet es eine einfache Kommandozeilenoberfläche zur Nutzung.
-
-## Features
-
-- **Gesichtserkennung:** Erkennt alle Gesichter in einem Bild.
-- **Visualisierung:** Zeichnet Rechtecke um die erkannten Gesichter.
-- **Kommandozeilen-Schnittstelle:**  Nutzung über die Shell.
+## Beschreibung
+Dies ist eine Flask-basierte Webanwendung, die Bilder hochladen, verarbeiten und Gesichtserkennung durchführen kann. Momentan wird das hochgeladene Bild verarbeitet, und Ergebnisse wie erkannte Gesichter und bearbeitete Bilder werden angezeigt. Der Code ist aktuell in der Entwicklung und nicht vollständig funktional.
 
 ---
 
-## Voraussetzungen
+## **Funktionen**
 
-1. Python 3.7 oder höher
-2. Installierte Python-Bibliotheken:
-   - `click 8.1.7`
-   - `dlib 19.24.6`
-   - `face-recognition 1.3.0`
-   - `face_recognition_models 0.3.0`
-   - `numpy 2.1.2`
-   - `pillow 11.0.0`
-   - `pip 24.2`
+### **Funktionalität des aktuellen Codes:**
+1. **Hochladen von Bildern:**
+   - Benutzer können ein Bild im `.jpg`- oder `.png`-Format hochladen.
+   - Die hochgeladene Datei wird im Verzeichnis `uploads/` gespeichert.
 
-### Installation der Abhängigkeiten
+2. **Gesichtserkennung:**
+   - Der Code versucht, Gesichter im Bild zu erkennen und ein bearbeitetes Bild mit markierten Gesichtern zu speichern.
+   - Das bearbeitete Bild wird im selben Verzeichnis gespeichert und kann aufgerufen werden.
 
-```bash
-pip install face_recognition Pillow
-```
+3. **Ergebnisseite:**
+   - Zeigt an, ob Gesichter erkannt wurden, und liefert das bearbeitete Bild oder eine Fehlermeldung zurück.
 
----
-
-## Nutzung
-
-### Skript ausführen
-
-Das Tool kann direkt über die Kommandozeile ausgeführt werden.
-
-### Beispiel
-
-1. Navigiere zum Verzeichnis des Projekts:
-
-   ```bash
-   cd <projektpfad>
-   ```
-
-2. Führe das Skript mit dem Bildpfad aus:
-
-   ```bash
-   python face_detection.py <image_path>
-   ```
-
-   Ersetze `<image_path>` mit dem Pfad zum Bild, das analysiert werden soll. Beispiel:
-
-   ```bash
-   python face_detection.py beispielbild.jpg
-   ```
-
-### Ergebnis
-
-Das Skript:
-
-- Zeigt die Anzahl der gefundenen Gesichter in der Konsole an.
-- Öffnet das Bild mit roten Rechtecken um die erkannten Gesichter.
+### **Einschränkungen und Probleme:**
+- **404-Fehler:** Es gibt ein bekanntes Problem, bei dem nach dem Hochladen ein Fehler auftritt, weil eine falsche Route aufgerufen wird.
+- **Keine erkannte Gesichter:** Aktuell werden Gesichter in den hochgeladenen Bildern nicht immer zuverlässig erkannt.
+- **Debugging aktiv:** Der Code enthält Debugging-Logs, um aktuelle Fehler besser nachzuvollziehen.
 
 ---
 
-## Nächste Schritte
+## **Installationsanleitung**
 
-- **Fehlerbehandlung:** Robustere Handhabung ungültiger Eingaben.
-- **Erweiterung:** Hinzufügen von Landmark-Erkennung (Augen, Mund, etc.).
-- **Speicheroption:** Bearbeitetes Bild automatisch speichern.
+1. **Voraussetzungen:**
+   - Python 3.7 oder höher
+   - Virtuelle Umgebung empfohlen
+
+2. **Abhängigkeiten installieren:**
+   ```bash
+   pip install flask face_recognition Pillow
+   ```
+
+3. **Projektstruktur:**
+   ```
+   project/
+   ├── app.py                # Hauptcode der Anwendung
+   ├── templates/            # HTML-Vorlagen
+   │   ├── index.html        # Startseite
+   │   └── results.html      # Ergebnisseite
+   ├── uploads/              # Verzeichnis für hochgeladene Dateien
+   └── requirements.txt      # Abhängigkeiten
+   ```
+
+4. **App starten:**
+   ```bash
+   python app.py
+   ```
+
+5. **Zugriff auf die App:**
+   - Öffne deinen Browser und navigiere zu: `http://127.0.0.1:5000`
+
+---
+
+## **Aktuelle Entwicklung**
+- Der Code ist nicht final und befindet sich in der Debugging-Phase.
+- Bekannte Probleme:
+  1. **Falsche Weiterleitungen:** Nach dem Upload wird eine fehlerhafte Route (`/uploads`) aufgerufen.
+  2. **Gesichtserkennung:** Gesichter werden nicht immer erkannt oder markiert.
+
+### **Nächste Schritte:**
+1. Debugging der Upload-Route und Ergebnisseite.
+2. Verlässliche Gesichtserkennung mit kleineren Testbildern sicherstellen.
+3. Erweiterung der App um detaillierte Fehlermeldungen und Benutzerführung.
 
 ---
 
 ## Beiträge
-
-Pull Requests und Issues sind willkommen! Für Verbesserungsvorschläge oder Fehlerberichte erstelle bitte ein Issue im Repository.
+Pull Requests und Vorschläge sind willkommen. Dieses Projekt eignet sich gut, um mehr über Flask, Gesichtserkennung und Webentwicklung zu lernen.
 
