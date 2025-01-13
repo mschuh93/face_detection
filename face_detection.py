@@ -91,8 +91,8 @@ def upload_file():
         return "Datei hat keinen Namen. Bitte vergeben.", 400
 
     #Datei speichern 
-    file_path = os.path.join('uploads', file.filename)
-    os.makedirs('uploads', exist_ok=True) # Erstellt ein Verzeichnis, falls es noch nicht exisiterit 
+    file_path = os.path.join(app.config['uploads'], file.filename)
+    os.makedirs(app.config['uploads'], exist_ok=True) # Erstellt ein Verzeichnis, falls es noch nicht exisiterit 
     file.save(file_path) # speichert die Datei lokal
     print(f"Datei erfolgreich gespeichert: {file_path}")
 
@@ -105,7 +105,7 @@ def upload_file():
 
 
     # Weiterleitung zur Ergebnisseite 
-    return render_template('results.html', image=result["result_path"], message=result["message"])
+    return redirect(url_for('shwo_results', image=result["result_path"], message=result["message"]))
 
 
 
@@ -113,12 +113,13 @@ def upload_file():
 @app.route ('/results/')
 def show_results():
     image = request.args.get('image') #holt den Bildpfad aus der Anfrage 
-    return render_template('results.html', image=image) 
+    message = request.args.get('message')
+    return render_template('results.html', image=image, message=message) 
 
 # Erstellt die Route, um hochgeladene Dateien bereitzustellen 
 @app.route('/uploads/<filename>')
 def serve_uploaded_file(filename):
-    return send_from_directory('uploads', filename)  #send_from_directory: Flask stellt Dateien aus einem Ordner bereit.
+    return send_from_directory(app.config['uploads'], filename)  #send_from_directory: Flask stellt Dateien aus einem Ordner bereit.
 
 
 def main(): 
