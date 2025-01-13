@@ -5,7 +5,8 @@ import os
 from PIL import Image, ImageDraw
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 
-app = Flask(__name__) # Erstellt die Flask-Anwendung. App bekommt den Namen main, wenn es aus der Konsole gestartet wird. 
+app = Flask(__name__)# Erstellt die Flask-Anwendung. App bekommt den Namen main, wenn es aus der Konsole gestartet wird. 
+app.config['UPLOAD_FOLDER'] = 'uploads'  # Ordner für hochgeladene Dateien
 
 # def detect_faces(image_path):
 #     # Bild laden
@@ -64,7 +65,7 @@ def detect_faces(image_path):
         draw.rectangle(((left, top), (right, bottom)), outline="red", width=3)
 
     # Ergebnis speichern
-    result_path = os.path.join('uploads', 'result_' + os.path.basename(image_path))
+    result_path = os.path.join(app.config['UPLOAD_FOLDER'], 'result_' + os.path.basename(image_path))
     try:
         pil_image.save(result_path)
     except Exception as e:
@@ -91,21 +92,19 @@ def upload_file():
         return "Datei hat keinen Namen. Bitte vergeben.", 400
 
     #Datei speichern 
-    file_path = os.path.join(app.config['uploads'], file.filename)
-    os.makedirs(app.config['uploads'], exist_ok=True) # Erstellt ein Verzeichnis, falls es noch nicht exisiterit 
+    file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+    os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True) # Erstellt ein Verzeichnis, falls es noch nicht exisiterit 
     file.save(file_path) # speichert die Datei lokal
     print(f"Datei erfolgreich gespeichert: {file_path}")
 
 
     # Gesichtserkennung durchführen 
     result = detect_faces(file_path)
-    
     if "error" in result:
         return render_template('results.html', image=None, message=result["error"])
 
-
     # Weiterleitung zur Ergebnisseite 
-    return redirect(url_for('shwo_results', image=result["result_path"], message=result["message"]))
+    return redirect(url_for('show_results', image=os.path.basename(result["result_path"]), message=result["message"]))
 
 
 
@@ -119,7 +118,7 @@ def show_results():
 # Erstellt die Route, um hochgeladene Dateien bereitzustellen 
 @app.route('/uploads/<filename>')
 def serve_uploaded_file(filename):
-    return send_from_directory(app.config['uploads'], filename)  #send_from_directory: Flask stellt Dateien aus einem Ordner bereit.
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)  #send_from_directory: Flask stellt Dateien aus einem Ordner bereit.
 
 
 def main(): 
