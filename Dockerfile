@@ -1,27 +1,29 @@
-# Basis-Image mit Python 3.9
-FROM python:3.9-slim
+# Schlankes Basis-Image nutzen
+FROM python:3.9-alpine
 
-# Systempakete für face_recognition installieren
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    cmake \
-    libopenblas-dev \
-    liblapack-dev \
-    libx11-dev \
-    libglib2.0-0
-
-
-# Arbeitsverzeichnis im Container
+# Arbeitsverzeichnis setzen
 WORKDIR /app
 
-# Abhängigkeiten kopieren und installieren
+# Notwendige Systempakete für dlib und face_recognition
+RUN apk add --no-cache \
+    build-base \
+    cmake \
+    openblas-dev \
+    lapack-dev \
+    libx11-dev \
+    libffi-dev \
+    libpng-dev \
+    tiff-dev \
+    jpeg-dev \
+    git
+
+# Abhängigkeiten installieren
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir numpy && \
     pip install --no-cache-dir -r requirements.txt
 
 # Flask-App-Code kopieren
 COPY . .
 
 # Flask-App starten
-CMD ["python", "app.py"]
+CMD ["python3", "app.py"]
